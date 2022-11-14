@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Es 2 - Koca Alex</title>
+</head>
+<body>
+    <table border = "1px">
+        <tbody id = "tbody">
+            <tr>
+                <td>CONT</td>
+                <td>NUMERO</td>
+                <td>SOMMA</td>
+                <td>N>SOMMA</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>MAGGIORI</h2>
+
+    <div id = "maggiori"></div>
+    <script>
+        let n 
+        let str = ""
+        let cont = 1
+        let isMaggiore
+        let nMax = []
+        sommaPrec = 0
+        do{
+            n = Number(prompt("Inserisci il numero: ")) //DO PER SCONTATO CHE NON VENGA INSERITO 0 COME NUMERO INIZIALE
+            if(isNaN(n)){
+                alert("INSERIRE UN NUMERO!")
+            }
+            else{
+
+                if(n > sommaPrec){
+                    isMaggiore = "Sì"
+                    nMax.push(n)
+                
+                }
+                else
+                    isMaggiore = "No"
+
+                str +=`<tr><td>${cont}</td> <td>${n}</td> <td>${sommaPrec}</td> <td>${isMaggiore}</td></tr>`
+                cont++
+                sommaPrec += n
+                document.getElementById("tbody").innerHTML += str
+                str = ""
+            }
+            
+        }while(n != 0)
+        
+        for(let i = 0; i < nMax.length; i++){
+            document.getElementById("maggiori").innerHTML += `<p>${nMax[i]}</p>`
+        }
+    </script>
+</body>
+</html>
