@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Es 1 - Koca Alex</title>
+    <style>
+        .visibile{
+            visibility: visible;        
+        }
+        .nascosta{
+            visibility: hidden;        
+        }
+    </style>
+</head>
+<body>
+    <table border = "1px">
+        <tbody>
+            <tr>
+                <td>Cliente</td>
+                <td><input type="number" id = "cliente"></td>
+            </tr>
+            <tr>
+                <td>Consumo</td>
+                <td><input type="number" id = "consumo"></td>
+            </tr>
+            <tr>
+                <td>Costo</td>
+                <td ><input id = "costo" disabled value="0.03"></td>
+            </tr>
+            <tr>
+                <td>Iva</td>
+                <td ><input id = "iva" disabled value="22"></td>
+            </tr>
+            <tr>
+                <td>Canone</td>
+                <td ><input id = "canone" disabled value="20"></td>
+            </tr>
+            <tr>
+                <td><button onclick="inserisci()">Inserisci</button></td>
+                <td><button onclick="mostra()">Mostra</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table border = "1px" id = "tabella" class="nascosta">
+        <tbody id = "tbody">
+            <tr>
+                <td>Cliente</td>
+                <td>Consumo * Costo</td>
+                <td>Canone</td>
+                <td>IVA</td>
+                <td>Totale</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+
+        function inserisci(){
+            let costo = Number(document.getElementById("costo").value);
+            let iva = Number(document.getElementById("iva").value);
+            let canone = Number(document.getElementById("canone").value);
+
+            let cliente = document.getElementById("cliente").value
+            let consumo = document.getElementById("consumo").value
+            if(cliente <= 0 || consumo <= 0)
+                alert("Errore di inserimento")
+            else{
+                let str ="<tr>"
+                let totale = ((consumo*costo)*iva)/100 + canone
+                str += `<td> ${cliente} </td> <td> ${consumo*costo} </td> <td> ${canone}€ </td> <td> ${iva} </td> <td> ${totale.toFixed(2)} €</td></tr>`
+
+                document.getElementById("tbody").innerHTML += str
+            }
+            
+        }
+
+        function mostra(){
+            document.getElementById("tabella").classList.remove("nascosta");
+        }
+    </script>
+</body>
+</html>
