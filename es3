@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Es 3 Koca Alex</title>
+<style>
+    img {
+      max-width: 200px;
+    }
+    table {
+      font-size:2em;
+      text-align: center;
+    }
+</style>
+</head>
+<body>
+    <table border = "1px">
+        <tbody id = "tbody">
+
+        </tbody>
+    </table>
+
+    <script>
+        let nGatti = Number(prompt("Inserire il numero di gatti"))
+        let colonne = Number(prompt("Inserire il numero di gatti per fila"))
+
+        let tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let img = document.createElement("img")
+        let gattiMancanti = nGatti/colonne
+        for(let i = 0; i < nGatti; i++){
+            img = document.createElement("img")
+            img.src = "gatto.jpg"
+            td = document.createElement("td")
+            td.appendChild(img)
+            tr.appendChild(td)
+            if((i+1)%colonne == 0){
+                tr = document.createElement("tr")
+                console.log(i%colonne)
+            }
+            document.getElementById("tbody").appendChild(tr)
+        }
+
+        if(gattiMancanti > 0)
+            for(let i = 0; i < gattiMancanti; i++)
+                document.getElementById("tbody").innerHTML += "<td>"+ i +"</td>"
+        
+        /*let str = ""
+        for(let i = 0; i < nGatti; i++){
+        str += "<td><img src = 'gatto.jpg'> </td>"
+        
+        if(i%colonne == 0){
+            str += "</tr>"
+            console.log(i)
+        }
+            
+        }
+        document.getElementById("tbody").innerHTML += str*/
+    </script>
+</body>
+</html>
