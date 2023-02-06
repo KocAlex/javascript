@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Narrazione</title>
+  </head>
+  <body>
+    <div class = "container w-80">
+        <div class="row gx-5">
+            <div id = "page2" class="col-sm border" style = "border-radius: 0.7rem; background-color: lightgrey; box-shadow: 0.2rem 0.1rem 0.1rem grey; transition: all 1s ease-out;">
+                <p id = "testo"></p>
+            </div>
+            <div class="col-sm pb-2" style = "border-radius: 0.7rem; background-color: lightgrey; box-shadow: 0.2rem 0.1rem 0.1rem grey;margin-left: 1rem;">
+                <form>
+                    <div class="form-group">
+                    <label>Soggetto</label>
+                    <input type="text" class="form-control" id="soggetto" placeholder="Soggetto">
+                    <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Obiettivo da raggiungere</label>
+                        <input type="text" class="form-control" id="obiettivo" placeholder="Obiettivo">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contesto</label>
+                        <input type="text" class="form-control" id="contesto" placeholder="Contesto">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Motivazione</label>
+                        <input type="text" class="form-control" id="motivazione" placeholder="Motivazione">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Comportamento</label>
+                        <input type="text" class="form-control" id="comportamento" placeholder="Comportamento">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Comportamento adeguato</label>
+                        <input type="text" class="form-control" id="stradaOK" placeholder="Comportamento adeguato">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Comportamento inadeguato</label>
+                        <input type="text" class="form-control" id="stradaKO" placeholder="Comportamento inadeguato">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cespuglio</label>
+                        <input type="text" class="form-control" id="cespuglio" placeholder="Cespuglio">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Attaccamenti</label>
+                        <input type="text" class="form-control" id="attaccamenti" placeholder="Attaccamenti">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Conseguenze</label>
+                        <input type="text" class="form-control" id="conseguenze" placeholder="Conseguenze negative">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Distanza</label>
+                        <input type="number" class="form-control" id="distanza" value = "3">
+                        <small class="form-text text-muted">Text</small>
+                    </div>
+
+                    <div class="container" style = "margin: 1rem;">
+                        <div class="row">
+                            <button type="button" class="btn btn-primary col-sm-2" onclick="simula(event.srcElement)" id = "submitter">Avvia</button>
+                        </div>
+                        <div class="row" style = "padding: 0.7rem;">
+                            <button type="button" class="btn btn-success col-md" onclick="bottoneSx()" id = "btnSx" style = "visibility:hidden;"></button>
+                            <button type="button" class="btn btn-danger col-md" onclick="bottoneDx()" id = "btnDx" style = "visibility:hidden;"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div style="margin-top: 1.5rem;" class="col-3">
+        </div>
+        <div class = "d-flex justify-content-center" id = "imgContainer">
+            
+        </div>
+        <div class = "d-flex justify-content-center" id = "textareaContainer">
+            <textarea name="Simulazione" id="myTextArea" style = "resize: none; box-sizing: border-box; visibility:hidden;" readonly></textarea>
+        </div>
+    </div>
+      
+
+      <script>
+
+        /*
+        Note:  String.fromCodePoint(int) prende un intero e lo converte nel suo carattere corrispondente in Unicode
+        Ho usato l'operatore ternario per assegnare il valore alle singole "parole" del testo. In molti casi (soggetto, obiettivo) 
+        sarebbe possibile assegnare ad un'altra variabile l'intera espressione tra ${} e riutilizzare quella variabile invece di chiamare più volte le funzioni
+        per ogni singola esecuzione
+        */
+       let posizione = 0;
+       let mode = "Motivazione"
+       const textarea = document.querySelector("#myTextArea");
+       textarea.value = "Vuoi iniziare il tuo percorso?";
+
+            const testo = document.querySelector("#testo");
+            const soggetto = document.querySelector("#soggetto");
+            const motivazione = document.querySelector("#motivazione");
+            const obiettivo = document.querySelector("#obiettivo");
+            const contesto = document.querySelector("#contesto");
+            const comportamento = document.querySelector("#comportamento");
+            const stradaOK = document.querySelector("#stradaOK");
+            const stradaKO = document.querySelector("#stradaKO");
+            const conseguenze = document.querySelector("#conseguenze");
+            const cespuglio = document.querySelector("#cespuglio");
+            const attaccamenti = document.querySelector("#attaccamenti");
+            const distanza = document.querySelector("#distanza");
+
+            const soggettoText = soggetto.value != "" ? soggetto.value.toUpperCase() : soggetto.getAttribute("placeholder").toUpperCase();
+            const motivazioneText = motivazione.value != "" ? motivazione.value.toUpperCase() : motivazione.getAttribute("placeholder").toUpperCase();
+            const obiettivoText = obiettivo.value != "" ? obiettivo.value.toUpperCase() : obiettivo.getAttribute("placeholder").toUpperCase();
+            const contestoText = contesto.value != "" ? contesto.value.toUpperCase() : contesto.getAttribute("placeholder").toUpperCase();
+            const comportamentoText = comportamento.value != "" ? comportamento.value.toUpperCase() : comportamento.getAttribute("placeholder").toUpperCase();
+            const stradaOKText = stradaOK.value != "" ? stradaOK.value.toUpperCase() : stradaOK.getAttribute("placeholder").toUpperCase();
+            const stradaKOText = stradaKO.value != "" ? stradaKO.value.toUpperCase() : stradaKO.getAttribute("placeholder").toUpperCase();
+            const conseguenzeText = conseguenze.value != "" ? conseguenze.value.toUpperCase() : conseguenze.getAttribute("placeholder").toUpperCase();
+            const cespuglioText = cespuglio.value != "" ? cespuglio.value.toUpperCase() : cespuglio.getAttribute("placeholder").toUpperCase();
+            const attaccamentiText = attaccamenti.value != "" ? attaccamenti.value.toUpperCase() : attaccamenti.getAttribute("placeholder").toUpperCase();
+            
+            //Setup immagine intro
+            document.querySelector("#imgContainer").innerHTML = `<img src = "naviga_rete_della_vita/Intro.gif" width = "100" height = "100%">`;
+
+
+        function update(){
+            testo.innerText = `${soggettoText} vuoi ${obiettivoText}? NO!
+                                Mancando ${motivazioneText}} per raggiungere ${obiettivoText} 
+                                ${soggettoText} nel contesto ${contestoText}
+                                non raggiungerai ${obiettivoText}.\n 
+                                ${soggettoText} vuoi ${obiettivoText}? SI!
+                                ${soggettoText} quale ${comportamentoText} scegli?\n
+                                Attenzione ${soggettoText}, la scelta ${stradaKO.value != "" ? stradaKO.value.toUpperCase() : stradaKO.getAttribute("placeholder").toUpperCase()} 
+                                ti allontana da ${obiettivoText}!\n ${String.fromCodePoint(10060)} Ti sei allontanato troppo e ti sei scontrato con ${conseguenze.value != "" ? conseguenze.value.toUpperCase() : conseguenze.getAttribute("placeholder").toUpperCase()}!\n
+                                ${soggettoText} quale ${comportamentoText} scegli?\n
+                                ${soggettoText}, la scelta ${stradaOKText} 
+                                ti avvicina a ${obiettivoText}!\n
+                                ${String.fromCodePoint(10004)} Complimenti ${soggettoText}! Hai raggiunto ${obiettivoText}!`;
+
+                                //Setup immagine explorer
+                                document.querySelector("#imgContainer").innerHTML = `<img src = "naviga_rete_della_vita/explorer.jpg" width = "50%" height = "50%">`;
+                                document.querySelectorAll("input").disabled = true;
+        }
+
+        function simula(e){
+            e.disabled= true;
+            update();
+            const btnDx = document.querySelector("#btnDx");
+            const btnSx = document.querySelector("#btnSx");
+
+            btnDx.innerText = "No";
+            btnSx.innerText = "Sì";
+
+            btnDx.style = "visibility:visible;";
+            btnSx.style = "visibility:visible;";
+
+
+            textarea.style = "visibility:visible;";
+            textarea.style.width = "35rem";
+            textarea.style.height = "35rem";
+            posizione = distanza.value;
+        }
+
+        function bottoneDx(){
+            if(mode == "Motivazione"){
+                textarea.value += `\nMALE! Mancando la motivazione ${motivazioneText} non riuscirai a raggiungere il tuo obiettivo!\n`;
+                btnDx.disabled = true;
+                btnSx.disabled = true;
+
+                document.querySelector("#imgContainer").innerHTML = `<img src = "naviga_rete_della_vita/manifestare1.jpg" width = "50%" height = "50%">`;
+            }
+            else if(mode == "Percorso"){
+                textarea.value += `${soggettoText} la tua scelta ti allontana dal tuo obiettivo!`;
+                textarea.value += `${cespuglioText} ti segnala il pericolo!`;
+                posizione++;
+                chkObiettivo();
+
+                document.querySelector("#imgContainer").innerHTML = `<img src = "naviga_rete_della_vita/no_sostegno.gif" width = "50%" height = "50%">`;
+            }
+            else{
+                btnDx.disabled = true;
+                btnSx.disabled = true;
+                window.open("naviga_rete_della_vita/paginaTopolinoTontolino.htm", "Ti sei perso!", "width = 500px, height = 500px, resizable = no, toolbar = no, scrollbars = no, status = no");
+                textarea.value += "Ti schianti contro le conseguenze delle tue azioni.";
+            }
+        }
+        function bottoneSx(){
+            if(mode == "Motivazione"){
+                textarea.value += `\nBENE! Cominciamo il tuo percorso.\n`;
+                mode = "Percorso";
+                            
+                btnDx.innerText = stradaKOText;
+                btnSx.innerText = stradaOKText;
+            }
+            else if(mode == "Percorso"){
+                textarea.value += `${soggettoText} la tua scelta ti avvicina al tuo obiettivo!`;
+                posizione--;
+                chkObiettivo();
+
+                document.querySelector("#imgContainer").innerHTML = `<img src = "naviga_rete_della_vita/sostegno1.gif" width = "50%" height = "50%">`;
+            }
+            else{
+                posizione = distanza.value;
+                textarea.innerText = "Hai abbandonato il tuo attaccamento."
+                document.querySelector("#imgContainer").innerHTML = `<img src = "naviga_rete_della_vita/cestino.gif" width = "50%" height = "50%">`;
+                mode = "Percorso";
+                btnDx.innerText = stradaKOText;
+                btnSx.innerText = stradaOKText;
+            }
+        }
+
+        function chkObiettivo(){
+            if(posizione == (distanza.value*2)){
+                textarea.value += `\n${soggettoText}, per uscire da questa situazione devi abbandonare ${attaccamentiText}!`;
+                
+                
+                document.querySelector("#imgContainer").innerHTML += `<img src = "naviga_rete_della_vita/lupo1.gif" width = "50%" height = "50%%">`;
+                document.querySelector("#imgContainer").scrollIntoView(true);
+                mode = "Cestino";
+                btnDx.innerText = "Trattieni";
+                btnSx.innerText = "Lascia";
+            }
+            else if(posizione == 0){
+                textarea.value += "\nHai raggiunto l'obiettivo, bravo!\n";
+                window.open("naviga_rete_della_vita/paginaTopolinoVolpino.htm", "Ce l'hai fatta!","width = 500px, height = 500px, resizable = no, toolbar = no, scrollbars = no, status = no");
+                document.querySelector("#imgContainer").innerHTML += `<img src = "naviga_rete_della_vita/coerenza.gif" width = "50%" height = "50%">`;
+                document.querySelector("#imgContainer").scrollIntoView(true);
+                btnDx.disabled = true;
+                btnSx.disabled = true;
+            }
+            else if(posizione == 1){
+                textarea.value += "\nTi manca l'ULTIMO PASSO! ";
+                textarea.value += `(${posizione})\n`;
+            }
+            else if(posizione == (distanza.value*2) - 1){
+                textarea.value += "\nAttenzione stai per scontrarti con le conseguenze negative";
+                textarea.value += ` (${posizione})\n`;
+
+            }
+            else{
+                textarea.value += ` (${posizione})\n`;
+            }
+        }
+      </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
