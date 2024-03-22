@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koca API Spotify V4</title>
+
+    <!--Just to be safe-->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Bootstrap JS (jQuery required) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+    <table class = "table">
+        <thead></thead>
+        <tbody id = "tbody" class = table></tbody>
+    </table>
+    <table>
+        <thead></thead>
+        <tbody id = "tbody2"></tbody>
+    </table>
+    
+    <div class="playerArea">
+
+    </div>
+    <div class="albumArea">
+
+    </div>
+    <script>
+        
+
+        //$('#popoverAlbum').popover()
+
+
+        let access_token = "BQA4KUw3pEp7zhLvKag-DTsLdwRG3CA7AkZ5iKOGuFrwJFa2EJTiCFSvhRc6CDFncpRvCUWIUl65deVIBJltwbHzSQskVSYbiiQxIGAEt4IBrKt72iIBNxyWUvBpeLPMSrkE8lCe6uPMXrlIcpVnN-KrgFg9qk81SEqedod33hFfrmPJOqIT3i41nONKMjzwg6BYEA60JlfGNaZMxAZrIpJ8"
+        
+        async function fetchData(){
+            try {
+                const response = await fetch(`https://api.spotify.com/v1/me/player/recently-played`, {
+                    headers: {
+                        "Authorization": "Bearer " + access_token
+                    }
+                });
+                if(!response.ok)
+                    throw new Error("Errore nella richiesta: " + response.status);
+                const userData = await response.json();
+                return userData;
+            
+            } catch (error){
+                console.error("Errore durante la richiesta: ", error)
+                return null;
+            }
+        }
+    
+        async function renderTable(){
+            try {
+                const jsonData = await fetchData();
+                let tbody = "";
+                let riga = "";
+                console.log(jsonData);
+                //Visualizzazione
+                riga = `<tr>`;
+                riga += `<td>Autore</td><td>Nome canzone</td><td>Copertina</td><td>Album</td><td>Ascolta</td>`;
+                riga += `</tr>`;
+                for(let i = 0; i < jsonData["items"].length; i++){
+                    riga += `<tr>`;
+                    track_name = jsonData["items"][i]["track"]["name"]
+                    artist_name = jsonData["items"][i]["track"]["artists"][0]["name"]
+                    riga += `<td><a href = '${jsonData["items"][i]["track"]["artists"][0]["external_urls"]["spotify"]}'>${artist_name}</a></td>`;
+                    riga += `<td>${track_name}</td>`;
+                    riga += `<td><img src = '${jsonData["items"][i]["track"]["album"]["images"][1]["url"]}'></img></td>`;
+                    riga += `<td><button onclick = 'showPlayer("${jsonData["items"][i]["track"]["id"]}")'>${jsonData["items"][i]["track"]["album"]["name"]}</a></td>`
+                    riga += `<td><button onclick = 'showAlbumInfo("${jsonData["items"][i]["track"]["album"]["id"]}")'>ASCOLTA</a></td>`;
+                    riga += `</tr>`;
+                }
+                tbody += riga;
+                document.getElementById("tbody").innerHTML = tbody;
+            } catch(error) {
+                console.error("Errore durante il rendering della tabella", error);
+            }
+        }
+        async function fetchAlbumData(id){
+            try {
+                const response = await fetch(`https://api.spotify.com/v1/albums/${id}`, {
+                    headers: {
+                        "Authorization": "Bearer " + access_token
+                    }
+                });
+                if(!response.ok)
+                    throw new Error("Errore nella richiesta: " + response.status);
+                const jsonAlbumData = await response.json();
+                return jsonAlbumData
+                
+            } catch (error){
+                console.error("Errore durante la richiesta: ", error)
+                return null;
+            }
+        }
+        renderTable();
+
+        function showPlayer(trackId){
+            divArea = document.querySelector(".playerArea"); 
+            divArea.innerHTML = "";
+            divArea.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/${trackId}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
+            
+        }
+
+        async function showAlbumInfo(albumId){
+            
+            divArea = document.querySelector(".albumArea"); 
+            divArea.innerHTML = "";
+            let jsonData = await fetchAlbumData(albumId);
+            console.log(jsonData);
+            content = "<ul>";
+            content += "<li><td>Nome Traccia</td><td>Durata</td></li>";
+            for(let traccia = 0; traccia < jsonData["total_tracks"]; traccia++){
+                content += `<li><td>${jsonData["tracks"]["items"][traccia]["name"]}</td><td>${jsonData["tracks"]["items"][traccia]["duration_ms"]}</td></li>`
+            }
+            content += "</ul>";
+            divArea.innerHTML = content;
+        }
+    </script>
+</body>
+</html>
