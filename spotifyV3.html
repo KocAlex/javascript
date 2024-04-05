@@ -32,7 +32,7 @@
         //$('#popoverAlbum').popover()
 
 
-        let access_token = "BQAGpMXYQ9RaksYU9YEhNoNmlvqrJA4xkxkqmS0vQby9bcStnB6CUdzDlbcxaSxshiljhNfLkPPRymuvDc0KTDoCH3sFg8YB6IHkVrUZv-Xh8kZhDbH8BvK5U4vK87Uj0wCaosfBM7O3vqAH-jekenoTe6S0s-Zsrr0rvXyOU6N0kk3F47EXW0rD0N5kQvGxPQSBBIYC0F_n7kBH4nWL4Cp6"
+        let access_token = "BQD2HS3A9uIMJwVOJmofYKnTytxUCmiPSgh1HYNqGJSQ7p80kMIy78kOG_xQO-Dw3TFxACRBRd68R6Bu_Fhs1fr-lNxuFu6nMdv-GEczwX3coZdU_PlmPFI_xvKP3LLe2YG-srRg-WT6pm_1gzUARqo-soyQEJvDFeqy83wabU2O0SnyeO6HrrA_GQp4RHg86eaS_3WfRWqbjcwX1R-I6HT1"
         
         async function fetchData(){
             try {
@@ -62,17 +62,14 @@
                 riga = `<tr>`;
                 riga += `<td>Autore</td><td>Nome canzone</td><td>Copertina</td><td>Album</td><td>Ascolta</td>`;
                 riga += `</tr>`;
-                //jsonData["items"].forEach((traccia) => {
                 for(let i = 0; i < jsonData["items"].length; i++){
                     riga += `<tr>`;
                     track_name = jsonData["items"][i]["track"]["name"]
                     artist_name = jsonData["items"][i]["track"]["artists"][0]["name"]
                     riga += `<td>${track_name}</td>`;
-                    riga += `<td>${artist_name}</td>`;
+                    riga += `<td><a href = '${jsonData["items"][i]["track"]["artists"][0]["external_urls"]["spotify"]}'>${artist_name}</a></td>`;
                     riga += `<td><img src = '${jsonData["items"][i]["track"]["album"]["images"][1]["url"]}'></img></td>`;
                     riga += `<td><a href = '${jsonData["items"][i]["track"]["album"]["external_urls"]["spotify"]}'>${jsonData["items"][i]["track"]["album"]["name"]}</a></td>`
-                    riga += `<td><button id = ${i} onclick = "fetchAlbumData('${jsonData["items"][i]["track"]["album"]["id"]}', '${i}')" type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Mostra tracce" data-content = "ZIOPERA!">${jsonData["items"][i]["track"]["album"]["name"]}</button></td>`
-                    
                     riga += `<td><a href = '${jsonData["items"][i]["track"]["external_urls"]["spotify"]}'>ASCOLTA</a></td>`;
                     riga += `</tr>`;
                 }
