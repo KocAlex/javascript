@@ -10,9 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- Bootstrap JS (jQuery required) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 
 </head>
 <body>
@@ -33,12 +31,8 @@
 
     </div>
     <script>
-        
 
-        //$('#popoverAlbum').popover()
-
-
-        let access_token = "BQA4KUw3pEp7zhLvKag-DTsLdwRG3CA7AkZ5iKOGuFrwJFa2EJTiCFSvhRc6CDFncpRvCUWIUl65deVIBJltwbHzSQskVSYbiiQxIGAEt4IBrKt72iIBNxyWUvBpeLPMSrkE8lCe6uPMXrlIcpVnN-KrgFg9qk81SEqedod33hFfrmPJOqIT3i41nONKMjzwg6BYEA60JlfGNaZMxAZrIpJ8"
+        let access_token = "BQD2HS3A9uIMJwVOJmofYKnTytxUCmiPSgh1HYNqGJSQ7p80kMIy78kOG_xQO-Dw3TFxACRBRd68R6Bu_Fhs1fr-lNxuFu6nMdv-GEczwX3coZdU_PlmPFI_xvKP3LLe2YG-srRg-WT6pm_1gzUARqo-soyQEJvDFeqy83wabU2O0SnyeO6HrrA_GQp4RHg86eaS_3WfRWqbjcwX1R-I6HT1"
         
         async function fetchData(){
             try {
@@ -66,7 +60,7 @@
                 console.log(jsonData);
                 //Visualizzazione
                 riga = `<tr>`;
-                riga += `<td>Autore</td><td>Nome canzone</td><td>Copertina</td><td>Album</td><td>Ascolta</td>`;
+                riga += `<td>Autore</td><td>Nome canzone</td><td>Copertina</td><td>Play</td><td>Album</td>`;
                 riga += `</tr>`;
                 for(let i = 0; i < jsonData["items"].length; i++){
                     riga += `<tr>`;
@@ -75,7 +69,7 @@
                     riga += `<td><a href = '${jsonData["items"][i]["track"]["artists"][0]["external_urls"]["spotify"]}'>${artist_name}</a></td>`;
                     riga += `<td>${track_name}</td>`;
                     riga += `<td><img src = '${jsonData["items"][i]["track"]["album"]["images"][1]["url"]}'></img></td>`;
-                    riga += `<td><button onclick = 'showPlayer("${jsonData["items"][i]["track"]["id"]}")'>${jsonData["items"][i]["track"]["album"]["name"]}</a></td>`
+                    riga += `<td><button class='btn btn-primary' onclick = 'showPlayer("${jsonData["items"][i]["track"]["id"]}")'>${jsonData["items"][i]["track"]["album"]["name"]}</td>`
                     riga += `<td><button onclick = 'showAlbumInfo("${jsonData["items"][i]["track"]["album"]["id"]}")'>ASCOLTA</a></td>`;
                     riga += `</tr>`;
                 }
@@ -117,14 +111,21 @@
             divArea.innerHTML = "";
             let jsonData = await fetchAlbumData(albumId);
             console.log(jsonData);
-            content = "<ul>";
-            content += "<li><td>Nome Traccia</td><td>Durata</td></li>";
+            content = "<table class= 'table'>";
+            content += "<tr><td>Nome Traccia</td><td>Durata</td><td>Ascolta ora</td></tr>";
             for(let traccia = 0; traccia < jsonData["total_tracks"]; traccia++){
-                content += `<li><td>${jsonData["tracks"]["items"][traccia]["name"]}</td><td>${jsonData["tracks"]["items"][traccia]["duration_ms"]}</td></li>`
+                tempo = new Date(jsonData["tracks"]["items"][traccia]["duration_ms"]);
+                tempo = `${tempo.getMinutes()}:${tempo.getSeconds()}`
+
+                content += `<tr><td>${jsonData["tracks"]["items"][traccia]["name"]}</td><td>${tempo}</td><td><a href = '${jsonData["tracks"]["items"][traccia]["external_urls"]["spotify"]}'>Ascolta ora</a></td></tr>`
             }
-            content += "</ul>";
+            content += "</table>";
             divArea.innerHTML = content;
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
